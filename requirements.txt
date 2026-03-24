@@ -1,3 +1,7 @@
 openclaw
 openai
 elevenlabs
+tenacity
+httpx
+requests
+python-dotenv
