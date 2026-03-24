@@ -1,5 +1,6 @@
-openclaw==0.1.5
+openclaw
 openai
 elevenlabs
 tenacity
-httpx==0.27.0
+httpx
+python-dotenv
