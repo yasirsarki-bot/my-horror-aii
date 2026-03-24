@@ -1,13 +1,13 @@
 import os
 from openclaw import OpenClaw
 
-# Initialize the 2026 Engine
+# Initialize the 2026 Engine using your Railway environment keys
 client = OpenClaw(api_key=os.getenv("OPENAI_API_KEY"))
 
 def run_horror_pipeline():
     try:
         print("--- PHASE 1: THE HOOK ---")
-        # In the new version, we use 'generate' directly
+        # In the 2026 version, we use the direct 'generate' command
         hook = client.generate(
             prompt="Write one 20-word scary story hook about a haunted mirror.",
             model="gpt-4o"
@@ -22,7 +22,7 @@ def run_horror_pipeline():
         print("Script generated successfully.")
         
         print("--- PHASE 3: READY FOR AUDIO ---")
-        print("Pipeline Check: PASSED.")
+        print("Pipeline Flow: SUCCESS.")
 
     except Exception as e:
         print(f"SYSTEM ERROR: {e}")
