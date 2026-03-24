@@ -1,6 +1,6 @@
 openclaw==2026.3.20
 openai
 elevenlabs
-tenacity
+tenacity==8.2.3
 httpx==0.27.0
 python-dotenv
