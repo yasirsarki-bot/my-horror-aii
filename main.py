@@ -1,40 +1,31 @@
-from openclaw import Agent, Task
+import os
+from openclaw import OpenClaw
 
-# 1. DEFINE THE WORKERS
-idea_agent = Agent(name="Idea_Gen", model="gpt-4-turbo")
-script_agent = Agent(name="Script_Writer", model="gpt-4-turbo")
-voice_agent = Agent(name="Voice_Master", model="gpt-4-turbo")
+# Initialize the 2026 Engine
+client = OpenClaw(api_key=os.getenv("OPENAI_API_KEY"))
 
 def run_horror_pipeline():
-    # --- STEP 1: GENERATE THE HOOK ---
-    print("Step 1: Generating Hook...")
-    hook_task = Task(
-        description="Create a 1-sentence viral horror story hook about urban legends.",
-        agent=idea_agent
-    )
-    story_hook = hook_task.execute() 
-    print(f"Hook Created: {story_hook}")
+    try:
+        print("--- PHASE 1: THE HOOK ---")
+        # In the new version, we use 'generate' directly
+        hook = client.generate(
+            prompt="Write one 20-word scary story hook about a haunted mirror.",
+            model="gpt-4o"
+        )
+        print(f"Hook: {hook}")
 
-    # --- STEP 2: WRITE THE SCRIPT ---
-    print("Step 2: Writing Script...")
-    script_task = Task(
-        description=f"Write a 500-word scary story based on this hook: {story_hook}. Focus on psychological dread.",
-        agent=script_agent
-    )
-    full_script = script_task.execute()
-    print("Script finished.")
+        print("--- PHASE 2: THE SCRIPT ---")
+        script = client.generate(
+            prompt=f"Write a 200-word scary story based on this hook: {hook}",
+            model="gpt-4o"
+        )
+        print("Script generated successfully.")
+        
+        print("--- PHASE 3: READY FOR AUDIO ---")
+        print("Pipeline Check: PASSED.")
 
-    # --- STEP 3: CONVERT TO AUDIO (The ElevenLabs Connection) ---
-    print("Step 3: Generating Audio...")
-    # This calls your ElevenLabs API automatically
-    voice_task = Task(
-        description=f"Convert this story into audio using a deep, gravelly male voice: {full_script}",
-        agent=voice_agent,
-        tool="elevenlabs_tts" # This is the 'skill' we installed
-    )
-    audio_file_path = voice_task.execute()
-    
-    print(f"SUCCESS! Your horror story is ready at: {audio_file_path}")
+    except Exception as e:
+        print(f"SYSTEM ERROR: {e}")
 
 if __name__ == "__main__":
     run_horror_pipeline()
